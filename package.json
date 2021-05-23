@@ -1,0 +1,33 @@
+{
+  "name": "diaryapp-version2",
+  "proxy": "http://127.0.0.1:5000",
+  "version": "2.0.0",
+  "description": "Personal Diary Application",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node backend/app",
+    "server": "nodemon backend/app",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "author": "Oluwa Tobiloba",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "colors": "^1.4.0",
+    "concurrently": "^6.1.0",
+    "connect-mongo": "^4.4.1",
+    "dotenv": "^9.0.2",
+    "express": "^4.17.1",
+    "express-async-handler": "^1.1.4",
+    "express-session": "^1.17.2",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.1",
+    "mongoose": "^5.12.10",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.7",
+    "passport": "^0.4.1",
+    "passport-google-oauth20": "^2.0.0"
+  }
+}
