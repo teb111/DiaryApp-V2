@@ -1,25 +1,40 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import Message from "../components/Message";
+import { registerUser } from "../actions/userActions";
 
-const SignupScreen = () => {
+const SignupScreen = ({ history }) => {
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
 
-  const submitHandler = (e) => {
+  const userLoginGoogle = useSelector((state) => state.userLoginGoogle);
+  const { userGoogle } = userLoginGoogle;
+  const userRegister = useSelector((state) => state.userRegister);
+  const { success } = userRegister;
+
+  useEffect(() => {
+    if (userGoogle) {
+      history.push("/");
+    }
+    if (success) {
+      history.push("/login");
+    }
+  }, [userGoogle, history, success]);
+
+  const signUpHandler = (e) => {
     if (password !== confirmPassword) {
-      alert("Passwords do not match, Please confirm and ReType");
+      setMessage("Passwords do not match, Please confirm and ReType");
     }
     e.preventDefault();
-    console.log({
-      name,
-      email,
-      password,
-      confirmPassword,
-    });
+    dispatch(registerUser(name, email, password));
   };
+
   return (
     <>
       <div className="signup-container">
@@ -37,12 +52,12 @@ const SignupScreen = () => {
             <Link
               to="/login"
               className="btn account-btn"
-              style={{ width: "85%" }}
+              style={{ width: "85%", color: "white" }}
             >
               <i className="fas fa-arrow-circle-left"></i> Go Back
             </Link>
 
-            <form onSubmit={submitHandler}>
+            <form>
               <div className="group">
                 <h2 className="form-heading" style={{ marginTop: "10px" }}>
                   Please Sign Up
@@ -54,7 +69,7 @@ const SignupScreen = () => {
                 <input
                   type="name"
                   value={name}
-                  className="control"
+                  className="control background"
                   placeholder="Enter Your Name...."
                   onChange={(e) => setName(e.target.value)}
                 />
@@ -86,24 +101,18 @@ const SignupScreen = () => {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 />
               </div>
-
               <div className="group">
-                <input
-                  type="submit"
-                  className="btn account-btn"
-                  readOnly
-                  value="Sign Up"
-                />
+                {message && <Message variant="danger">{message}</Message>}
               </div>
 
               <div className="group">
-                <Link
-                  to="/signup"
-                  className="btn"
-                  style={{ textDecoration: "none" }}
+                <div
+                  className="btn account-btn"
+                  style={{ width: "85%", color: "white" }}
+                  onClick={signUpHandler}
                 >
-                  <h4 className="link">Create new account ??? 😚</h4>
-                </Link>
+                  Sign Up <i className="fas fa-arrow-circle-right"></i>
+                </div>
               </div>
             </form>
           </div>

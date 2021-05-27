@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
 import asyncHandler from "express-async-handler"; // to handle any unHandled promise rejection warnings
-import User from "../models/userModel.js";
+import User from "../models/User.js";
 
-const protect = asyncHandler((req, res, next) => {
+const protect = asyncHandler(async (req, res, next) => {
   let token;
 
   if (
@@ -22,4 +22,4 @@ const protect = asyncHandler((req, res, next) => {
   }
 });
 
-export { token };
+export { protect };

@@ -1,15 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
+import Header from "../components/Header";
+import { useDispatch, useSelector } from "react-redux";
 
-const HomeScreen = () => {
-  return (
-    <header class="top-header">
-      <button class="logout-btn">Logout</button>
-      <h1>Personal Diary</h1>
-      <button class="add-icon">
-        <i className="fas fa-plus"></i>
-      </button>
-    </header>
-  );
+const HomeScreen = ({ history }) => {
+  const userLoginGoogle = useSelector((state) => state.userLoginGoogle);
+  const { userGoogle } = userLoginGoogle;
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  useEffect(() => {
+    if (!userGoogle && !userInfo) {
+      history.push("/login");
+    }
+  }, [userGoogle, history, userInfo]);
+
+  return <Header />;
 };
 
 export default HomeScreen;

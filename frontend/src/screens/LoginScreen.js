@@ -1,15 +1,47 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import GoogleLogin from "react-google-login";
 import { useDispatch, useSelector } from "react-redux";
 import { loginWithGoogle } from "../actions/userActions";
+import Loader from "../components/Loader";
+import Message from "../components/Message";
+import { loginUser } from "../actions/userActions";
 
 const LoginScreen = ({ history }) => {
   const dispatch = useDispatch();
 
-  const logInWithGoogle = (e) => {
-    e.preventDefault();
-    dispatch(loginWithGoogle());
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const responseSuccessGoogle = (response) => {
+    const tokenId = response.tokenId;
+    dispatch(loginWithGoogle(tokenId));
   };
+
+  const userRegister = useSelector((state) => state.userRegister);
+  const { success } = userRegister;
+
+  const responseErrorGoogle = (response) => {
+    console.log(response);
+  };
+
+  const userLoginGoogle = useSelector((state) => state.userLoginGoogle);
+  const { loading, userGoogle } = userLoginGoogle;
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo, error } = userLogin;
+
+  useEffect(() => {
+    if (userGoogle || userInfo) {
+      history.push("/");
+    }
+  }, [userGoogle, history, userInfo]);
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    dispatch(loginUser(email, password));
+  };
+
   return (
     <>
       <div className="signup-container">
@@ -24,25 +56,27 @@ const LoginScreen = ({ history }) => {
 
         <div className="account-right">
           <div className="form-area">
-            <form>
+            <form onSubmit={submitHandler}>
               <div className="group">
                 <h2 className="form-heading">Please Log in</h2>
               </div>
               <div className="group">
                 <input
                   type="email"
-                  name="email"
+                  value={email}
                   className="control"
                   placeholder="Enter email address....."
+                  onChange={(e) => setEmail(e.target.value)}
                 />
                 <div className="name-error error"></div>
               </div>
               <div className="group">
                 <input
                   type="password"
-                  name="password"
+                  value={password}
                   className="control"
                   placeholder="Enter password....."
+                  onChange={(e) => setPassword(e.target.value)}
                 />
                 <div className="name-error error"></div>
               </div>
@@ -58,14 +92,36 @@ const LoginScreen = ({ history }) => {
               </div>
 
               <div className="group">
-                <input
-                  type="submit"
-                  name="login"
-                  className="btn account-btn"
-                  readOnly
-                  value="Continue With Google"
-                  onClick={logInWithGoogle}
-                />{" "}
+                {error && <Message variant="danger">{error}</Message>}
+              </div>
+
+              <div
+                className="group"
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {loading ? (
+                  <Loader />
+                ) : (
+                  <GoogleLogin
+                    clientId="247079180053-gjglmnlaevngo30bgmibj4olgdhv22qm.apps.googleusercontent.com"
+                    buttonText="Continue with Google"
+                    onSuccess={responseSuccessGoogle}
+                    onFailure={responseErrorGoogle}
+                    cookiePolicy={"single_host_origin"}
+                  />
+                )}
+              </div>
+
+              <div className="group">
+                {success && (
+                  <Message style={{ color: "green" }}>
+                    Account Created Successfully, Please Log In
+                  </Message>
+                )}
               </div>
 
               <div className="group">

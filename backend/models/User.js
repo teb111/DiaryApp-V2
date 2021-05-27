@@ -1,25 +1,29 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 
 const UserSchema = new mongoose.Schema(
   {
     // these are the fields we are going to get back if the user authenticate with google
-    googleId: {
+    name: {
       type: String,
-    },
-    displayName: {
-      type: String,
+      trim: true,
       required: true,
+      max: 32,
     },
-    firstName: {
+    email: {
       type: String,
+      trim: true,
       required: true,
-    },
-    lastName: {
-      type: String,
-      required: true,
+      unique: true,
+      lowercase: true,
     },
     password: {
       type: String,
+      required: true,
+    },
+    resetLink: {
+      data: String,
+      default: "",
     },
   },
   {
@@ -28,8 +32,13 @@ const UserSchema = new mongoose.Schema(
   }
 );
 
+// creating a function to compare the user entered password with the one in the database
+UserSchema.methods.matchPassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
+
 // so this function here  will run before we save anything to our database , basically we are just hashing our password with bcrypt
-userSchema.pre("save", async function (next) {
+UserSchema.pre("save", async function (next) {
   // this will check if the password field has been modified, if not we do not want to hash the password
   // cause we don't want to hash the password on PUT requests to modify for example the user's name only
   if (!this.isModified("password")) {

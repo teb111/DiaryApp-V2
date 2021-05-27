@@ -1,7 +1,7 @@
 {
   "name": "diaryapp-version2",
-  "proxy": "http://127.0.0.1:5000",
   "version": "2.0.0",
+  "proxy": "http://127.0.0.1:5000",
   "description": "Personal Diary Application",
   "main": "app.js",
   "type": "module",
@@ -22,6 +22,7 @@
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
     "express-session": "^1.17.2",
+    "google-auth-library": "^7.0.4",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
     "mongoose": "^5.12.10",

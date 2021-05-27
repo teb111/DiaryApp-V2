@@ -138,6 +138,9 @@ i {
 
 .group {
   margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .control {
@@ -148,6 +151,7 @@ i {
   border: 1px solid var(--color-purple1);
   transition: all 1s;
   color: rgba(0, 0, 0, 0.721);
+  background-color: #fff;
 }
 
 .control:focus {
@@ -247,7 +251,7 @@ i {
   }
 
   .control {
-    background-color: #999;
+    background-color: #fff;
     color: #000;
   }
 
@@ -267,5 +271,38 @@ i {
     font-size: 0.9rem;
     font-family: sans-serif;
     color: var(--color-black);
+  }
+}
+
+/* Loader Styling */
+
+.spinner-10 {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  color: #854f1d;
+  background: linear-gradient(currentColor 0 0) center/100% 4px,
+    linear-gradient(currentColor 0 0) center/4px 100%,
+    radial-gradient(
+      farthest-side,
+      #0000 calc(100% - 6px),
+      currentColor calc(100% - 5px)
+    ),
+    radial-gradient(circle 6px, currentColor 94%, #0000 0);
+  background-repeat: no-repeat;
+  animation: s10 2s infinite linear;
+  position: relative;
+}
+.spinner-10:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: inherit;
+  transform: rotate(45deg);
+}
+@keyframes s10 {
+  to {
+    transform: rotate(0.5turn);
   }
 }
