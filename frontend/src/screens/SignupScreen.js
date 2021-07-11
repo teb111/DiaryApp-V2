@@ -52,7 +52,7 @@ const SignupScreen = ({ history }) => {
             <Link
               to="/login"
               className="btn account-btn"
-              style={{ width: "85%", color: "white" }}
+              style={{ width: "85%", marginBottom: "5px", marginTop: "3px" }}
             >
               <i className="fas fa-arrow-circle-left"></i> Go Back
             </Link>
@@ -108,7 +108,7 @@ const SignupScreen = ({ history }) => {
               <div className="group">
                 <div
                   className="btn account-btn"
-                  style={{ width: "85%", color: "white" }}
+                  style={{ width: "85%" }}
                   onClick={signUpHandler}
                 >
                   Sign Up <i className="fas fa-arrow-circle-right"></i>

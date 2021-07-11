@@ -57,7 +57,7 @@ const LoginScreen = ({ history }) => {
         <div className="account-right">
           <div className="form-area">
             <form onSubmit={submitHandler}>
-              <div className="group">
+              <div className="group" style={{ marginTop: "10px" }}>
                 <h2 className="form-heading">Please Log in</h2>
               </div>
               <div className="group">
@@ -91,8 +91,49 @@ const LoginScreen = ({ history }) => {
                 />
               </div>
 
+              <div
+                style={{
+                  marginBottom: "3px",
+                }}
+                className="group"
+              >
+                <p
+                  style={{
+                    fontSize: "12px",
+                    display: "block",
+                  }}
+                >
+                  Having Issues Logging In ???
+                </p>{" "}
+              </div>
+              <div
+                style={{
+                  marginBottom: "2px",
+                }}
+                className="group"
+              >
+                <Link
+                  to="/forgot-password"
+                  className="btn"
+                  style={{ textDecoration: "none" }}
+                >
+                  <h4
+                    style={{
+                      fontSize: "14px",
+                    }}
+                    className="link"
+                  >
+                    Forgot Password???
+                  </h4>
+                </Link>
+              </div>
+
               <div className="group">
-                {error && <Message variant="danger">{error}</Message>}
+                {error && (
+                  <Message textcolor="#FF0000" iconClass="fas fa-ban">
+                    {error}
+                  </Message>
+                )}
               </div>
 
               <div
@@ -101,6 +142,8 @@ const LoginScreen = ({ history }) => {
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
+                  marginBottom: "3px",
+                  marginTop: "2px",
                 }}
               >
                 {loading ? (
@@ -118,7 +161,7 @@ const LoginScreen = ({ history }) => {
 
               <div className="group">
                 {success && (
-                  <Message style={{ color: "green" }}>
+                  <Message textcolor="green" iconClass="fas fa-check">
                     Account Created Successfully, Please Log In
                   </Message>
                 )}
@@ -130,7 +173,7 @@ const LoginScreen = ({ history }) => {
                   className="btn"
                   style={{ textDecoration: "none" }}
                 >
-                  <h4 className="link">Create new account ??? 😚</h4>
+                  <h4 className="link">Create new account ???</h4>
                 </Link>
               </div>
             </form>

@@ -1,4 +1,7 @@
 import {
+  PASSWORD_RESET_FAIL,
+  PASSWORD_RESET_REQUEST,
+  PASSWORD_RESET_SUCCESS,
   USER_LOGIN_FAIL,
   USER_LOGIN_GOOGLE_FAIL,
   USER_LOGIN_GOOGLE_REQUEST,
@@ -51,6 +54,20 @@ export const userLoginReducer = (state = {}, action) => {
       return { loading: false, error: action.payload };
     case USER_LOGOUT:
       return {};
+    default:
+      return state;
+  }
+};
+
+export const resetPasswordReducer = (state = {}, action) => {
+  switch (action.type) {
+    case PASSWORD_RESET_REQUEST:
+      return { loading: true };
+    case PASSWORD_RESET_SUCCESS:
+      return { loading: false, passwordReset: action.payload };
+    case PASSWORD_RESET_FAIL:
+      return { loading: false, error: action.payload };
+
     default:
       return state;
   }
