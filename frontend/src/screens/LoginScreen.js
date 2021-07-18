@@ -56,7 +56,7 @@ const LoginScreen = ({ history }) => {
 
         <div className="account-right">
           <div className="form-area">
-            <form onSubmit={submitHandler}>
+            <form>
               <div className="group" style={{ marginTop: "10px" }}>
                 <h2 className="form-heading">Please Log in</h2>
               </div>
@@ -68,7 +68,6 @@ const LoginScreen = ({ history }) => {
                   placeholder="Enter email address....."
                   onChange={(e) => setEmail(e.target.value)}
                 />
-                <div className="name-error error"></div>
               </div>
               <div className="group">
                 <input
@@ -78,17 +77,12 @@ const LoginScreen = ({ history }) => {
                   placeholder="Enter password....."
                   onChange={(e) => setPassword(e.target.value)}
                 />
-                <div className="name-error error"></div>
               </div>
 
               <div className="group">
-                <input
-                  type="submit"
-                  name="login"
-                  className="btn account-btn"
-                  readOnly
-                  value="Log in"
-                />
+                <div onClick={submitHandler} className="btn account-btn">
+                  Log In <i className="fas fa-sign-in-alt"></i>
+                </div>
               </div>
 
               <div
@@ -97,14 +91,14 @@ const LoginScreen = ({ history }) => {
                 }}
                 className="group"
               >
-                <p
+                <h4
+                  className="link"
                   style={{
                     fontSize: "12px",
-                    display: "block",
                   }}
                 >
                   Having Issues Logging In ???
-                </p>{" "}
+                </h4>{" "}
               </div>
               <div
                 style={{

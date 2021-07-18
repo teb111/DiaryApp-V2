@@ -1,4 +1,5 @@
 import axios from "axios";
+import { CREATE_DIARY_RESET } from "../constants/diaryConstant";
 import {
   USER_LOGIN_FAIL,
   USER_LOGIN_GOOGLE_FAIL,
@@ -50,6 +51,7 @@ export const logout = () => (dispatch) => {
   localStorage.removeItem("userInfo");
   dispatch({ type: USER_LOGOUT_GOOGLE });
   dispatch({ type: USER_LOGOUT });
+  dispatch({ type: CREATE_DIARY_RESET });
 };
 
 export const registerUser = (name, email, password) => async (dispatch) => {

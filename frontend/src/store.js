@@ -6,11 +6,14 @@ import {
   userRegisterReducer,
   userLoginReducer,
 } from "./reducers/userReducer";
+import { createDiaryReducer, diaryListReducer } from "./reducers/diaryReducer";
 
 const reducer = combineReducers({
   userRegister: userRegisterReducer,
   userLoginGoogle: userLoginGoogleReducer,
   userLogin: userLoginReducer,
+  diaryCreate: createDiaryReducer,
+  diaryList: diaryListReducer,
 });
 
 const userInfoGoogleFromStorage = localStorage.getItem("userGoogle")

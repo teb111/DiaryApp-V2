@@ -1,3 +1,4 @@
+import path from "path";
 import express from "express";
 import dotenv from "dotenv";
 import morgan from "morgan";
@@ -5,6 +6,8 @@ import colors from "colors";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import diaryRoutes from "./routes/diaryRoutes.js";
+import uploadRoutes from "./routes/uploadRoutes.js";
 
 //load config
 dotenv.config({});
@@ -23,8 +26,15 @@ app.get("/", (req, res) => {
   res.send("This is working");
 });
 
+// routes
 app.use("/auth/google", authRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/diary", diaryRoutes);
+app.use("/api/uploads", uploadRoutes);
+
+// images
+const __dirname = path.resolve();
+app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
 const PORT = process.env.PORT || 5000;
 

@@ -1,6 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Lato&family=Open+Sans:wght@300;400&display=swap");
-
-@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap");
+@font-face {
+  font-family: "calibre";
+  src: url(./Calibre-Regular/Calibre-Regular.woff);
+}
 
 :root {
   /* --color-purple1: #170312f3;
@@ -23,11 +24,25 @@
 html {
   scrollbar-color: var(--color-silver-2) var(--color-purple1);
   scrollbar-width: thin;
+  scroll-behavior: smooth;
+}
+
+body::-webkit-scrollbar {
+  width: 10px;
+}
+
+body::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: var(--color-purple2);
+  border-radius: 50px;
 }
 
 body {
-  font-family: "Open Sans", sans-serif;
-  font-family: "Lato", sans-serif;
+  font-family: calibre;
   color: #ccc;
   background: rgba(255, 255, 255, 0.809);
 }
@@ -41,7 +56,7 @@ p {
   font-weight: 700;
   margin: 0;
   padding: 0;
-  font-family: "Lato", sans-serif;
+  font-family: calibre;
   color: rgba(0, 0, 0, 0.87);
 }
 ul li {
@@ -287,7 +302,6 @@ i {
 
   ::-webkit-input-placeholder {
     font-size: 0.9rem;
-    font-family: sans-serif;
     color: var(--color-black);
   }
 }
@@ -330,7 +344,6 @@ i {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: var(--font-sans);
 }
 
 .welcome-text .big-heading {
@@ -343,7 +356,6 @@ i {
 }
 
 .welcome-text .small-heading {
-  font-family: "Source Sans Pro", sans-serif;
   margin-top: 4px;
   letter-spacing: 1.7px;
   line-height: normal;
@@ -519,6 +531,7 @@ input#menu[type="checkbox"] {
   left: 50px;
   width: calc(100% - 50px);
   transition: transform 0.45s cubic-bezier(0.77, 0, 0.175, 1);
+  background-color: #fdfff7;
 }
 
 .wrappper-background {
@@ -596,7 +609,6 @@ input#menu[type="checkbox"] {
   top: 11px;
   left: 55px;
   display: block;
-  font-family: "Work Sans", sans-serif;
   text-transform: uppercase;
   font-weight: 800;
   color: #000;
@@ -741,7 +753,6 @@ address {
 
 pre {
   background: #eee;
-  font-family: "Courier 10 Pitch", Courier, monospace;
   font-size: 15px;
   font-size: 0.9375rem;
   line-height: 1.6;
@@ -755,7 +766,6 @@ code,
 kbd,
 tt,
 var {
-  font-family: Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace;
   font-size: 15px;
   font-size: 0.9375rem;
 }
@@ -963,4 +973,73 @@ h4,
   p.intro {
     font-size: 1.4em;
   }
+}
+
+/* Form styles */
+.form-container {
+  display: block;
+  text-align: justify;
+  margin: 15px;
+  background: url("./topography.svg");
+}
+.form-container .group {
+  display: block;
+}
+.form-label {
+  display: block;
+  text-align: start;
+  letter-spacing: 1.5px;
+  font-size: clamp(20px, 3vw, 40px);
+  color: #000000a1;
+  font-weight: 600;
+}
+
+/* Homescreen flex styles */
+
+.cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cards li {
+  border: 2px solid #490a3d;
+  border-radius: 5px;
+  color: #fff;
+  flex: 1 1 200px;
+}
+
+.cards h2 {
+  margin: 0;
+  padding: 10px;
+}
+
+.cards p {
+  padding: 10px;
+}
+
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -10px;
+}
+
+.flex li {
+  flex: 1 1 200px;
+  margin: 10px;
+}
+
+/* top navigation */
+.top-navigation {
+  display: block;
+  margin-bottom: 10px;
+  width: 90%;
+}
+.crayons-textfield {
+  line-height: 1.5;
+  padding: calc(0.5em - 0.7rem) 0.5em;
+  font-family: inherit;
+  font-size: 1em;
+  width: 100%;
+  resize: vertical;
 }

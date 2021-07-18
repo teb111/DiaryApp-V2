@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import LoginScreen from "./screens/LoginScreen";
 import HomeScreen from "./screens/HomeScreen";
 import SignupScreen from "./screens/SignupScreen";
+import CreateScreen from "./screens/CreateScreen";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/login" component={LoginScreen} exact />
         <Route path="/signup" component={SignupScreen} exact />
         <Route path="/" component={HomeScreen} exact />
+        <Route path="/create" component={CreateScreen} exact />
         <Switch />
       </Container>
     </Router>
