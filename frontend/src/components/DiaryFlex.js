@@ -1,13 +1,11 @@
 import React from "react";
 import "./DiaryFlex.css";
-import { read } from "../script.js";
 
-const DiaryFlex = ({ user, id, title, body }) => {
-  console.log(read);
+const DiaryFlex = ({ id, user, title, body, image, readTime }) => {
   return (
     <>
-      <div className="lc af ld" key={id}>
-        <div className="af" key={id}>
+      <div className="lc af ld">
+        <div className="af">
           <div className="af">
             <div>
               <div className="af">
@@ -29,17 +27,10 @@ const DiaryFlex = ({ user, id, title, body }) => {
                             <div className="mq ar bv fg">
                               <div className="hi af">
                                 <div>
-                                  <div
-                                    className="af"
-                                    role="tooltip"
-                                    aria-hidden="false"
-                                    aria-describedby="11"
-                                    aria-labelledby="11"
-                                  >
+                                  <div className="af">
                                     <a
-                                      href="bb"
+                                      href={`/details/${id}`}
                                       className="bd be bf bg bh bi bj bk bl bm bn bo bp bq br"
-                                      rel="noopener"
                                     >
                                       <h4 className="ca fw id hw kn mr ms mt mu mv mw cd mx">
                                         {user}
@@ -54,7 +45,7 @@ const DiaryFlex = ({ user, id, title, body }) => {
                         <a
                           className="bd be bf bg bh bi bj bk bl bm bn bo bp bq br"
                           rel="noopener"
-                          href="15"
+                          href={`/details/${id}`}
                         >
                           <h2 className="title">{title}</h2>
                           <div className="qt af g">
@@ -74,9 +65,7 @@ const DiaryFlex = ({ user, id, title, body }) => {
                               </span>
                             </div>
                             <span className="nn reading-time">
-                              <span className="ca b id cc ie">
-                                {body ? read() : ""}
-                              </span>
+                              <span className="ca b id cc ie">{readTime}</span>
                             </span>
                           </div>
                           <div className="ar">
@@ -84,13 +73,7 @@ const DiaryFlex = ({ user, id, title, body }) => {
                               <div className="hd af rd">
                                 <div className="re">
                                   <div>
-                                    <div
-                                      className="cu"
-                                      role="tooltip"
-                                      aria-hidden="false"
-                                      aria-describedby="1"
-                                      aria-labelledby="1"
-                                    >
+                                    <div className="cu">
                                       <button
                                         className="bd be bf bg bh bi bj bk bl bm bn bo bp bq br"
                                         aria-label="Bookmark Post"
@@ -111,18 +94,8 @@ const DiaryFlex = ({ user, id, title, body }) => {
                                 </div>
                               </div>
                               <div className="af bu">
-                                <div
-                                  className="cu"
-                                  aria-hidden="false"
-                                  aria-describedby="creatorActionOverflowMenu"
-                                  aria-labelledby="creatorActionOverflowMenu"
-                                >
-                                  <div
-                                    className="cu"
-                                    aria-hidden="false"
-                                    aria-describedby="removeFromPublicationPopover"
-                                    aria-labelledby="removeFromPublicationPopover"
-                                  ></div>
+                                <div className="cu">
+                                  <div className="cu"></div>
                                 </div>
                               </div>
                             </div>
@@ -132,14 +105,9 @@ const DiaryFlex = ({ user, id, title, body }) => {
                       <a
                         className="bd be bf bg bh bi bj bk bl bm bn bo bp bq br image-control"
                         rel="noopener"
-                        href="/predict/this-long-awaited-technology-may-finally-change-the-world-ec3023a30af2?source=explore---------0-49--------------------8fb30b31_4544_4075_bdbd_0ad00c929477-------15"
+                        href={`/details/${id}`}
                       >
-                        <img
-                          alt="This Long-Awaited Technology May Finally Change the World"
-                          src="https://miro.medium.com/fit/c/250/168/1*GlIDBz93SkiY0H9Ib7rObQ.jpeg"
-                          width="200"
-                          height="134"
-                        />
+                        <img alt={title} src={image} width="250" height="200" />
                       </a>
                     </div>
                   </div>

@@ -46,7 +46,6 @@ const DiarySchema = new mongoose.Schema(
     },
     readTime: {
       type: String,
-      required: true,
     },
     comment: [CommentSchema],
   },
@@ -55,8 +54,28 @@ const DiarySchema = new mongoose.Schema(
   }
 );
 
-const Diary = mongoose.model("Diary", DiarySchema);
+DiarySchema.methods.setReadTime = async function (diaryBody) {
+  const body = diaryBody;
+  const avgWordsPerMin = 250;
 
-DiarySchema.pre("save", async function (next) {});
+  const getWordCount = () => {
+    return body.match(/\w+/g).length;
+  };
+  const setReadingTime = () => {
+    let count = getWordCount();
+    let time = Math.ceil(count / avgWordsPerMin);
+
+    return (this.readTime = `${time} min read`);
+  };
+  await setReadingTime();
+};
+
+DiarySchema.pre("save", async function (next) {
+  if (!this.isModified("body")) {
+    next();
+  }
+});
+
+const Diary = mongoose.model("Diary", DiarySchema);
 
 export default Diary;

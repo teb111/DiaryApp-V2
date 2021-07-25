@@ -1,14 +1,35 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../actions/userActions";
+import { createDiary } from "../actions/diaryActions";
 
-const Nav = () => {
+const Nav = ({ history }) => {
   const dispatch = useDispatch();
 
   const logoutHandler = () => {
     dispatch(logout());
     console.log("logout");
+  };
+
+  const diaryCreate = useSelector((state) => state.diaryCreate);
+  const {
+    loading: loadingCreate,
+    error: errorCreate,
+    success: successCreate,
+    diary: createdDiary,
+  } = diaryCreate;
+
+  useEffect(() => {
+    if (successCreate) {
+      history.push(`/edit/${createdDiary._id}`);
+    } else {
+      history.push("/");
+    }
+  }, [successCreate, history, createdDiary]);
+
+  const createDiaryHandler = () => {
+    dispatch(createDiary());
   };
   return (
     <div>
@@ -24,13 +45,14 @@ const Nav = () => {
 
           <div className="overflow-container">
             <ul className="menu-dropdown">
-              <li>
-                <Link to="/create" style={{ padding: "1em" }}>
-                  <span>New Diary</span>
-                  <span className="icon">
-                    <i className="fas fa-plus"></i>
-                  </span>
-                </Link>
+              <li
+                onClick={createDiaryHandler}
+                style={{ padding: "1em", cursor: "pointer" }}
+              >
+                <span>New Diary</span>
+                <span className="icon">
+                  <i className="fas fa-plus"></i>
+                </span>
               </li>
               <li className="menu-hasdropdown">
                 <a href="#">Settings</a>
@@ -51,13 +73,13 @@ const Nav = () => {
 
                 <ul className="sub-menu-dropdown">
                   <li>
-                    <a href="">Profile</a>
+                    <a>Profile</a>
                   </li>
                   <li>
-                    <a href="">Security</a>
+                    <a>Security</a>
                   </li>
                   <li>
-                    <a href="">Account</a>
+                    <a>Account</a>
                   </li>
                 </ul>
               </li>

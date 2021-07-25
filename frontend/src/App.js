@@ -7,18 +7,27 @@ import LoginScreen from "./screens/LoginScreen";
 import HomeScreen from "./screens/HomeScreen";
 import SignupScreen from "./screens/SignupScreen";
 import CreateScreen from "./screens/CreateScreen";
+import DiaryScreen from "./screens/DiaryScreen";
 
 function App() {
   return (
     <Router>
       <Container>
         {/* {(!userGoogle || !userInfo) && <Redirect to="/login" />} */}
-        <Switch></Switch>
-        <Route path="/login" component={LoginScreen} exact />
-        <Route path="/signup" component={SignupScreen} exact />
-        <Route path="/" component={HomeScreen} exact />
-        <Route path="/create" component={CreateScreen} exact />
-        <Switch />
+        <Switch>
+          <Route path="/login" component={LoginScreen} exact />
+          <Route path="/signup" component={SignupScreen} exact />
+          <Route path="/" component={HomeScreen} exact />
+          <Route path="/search/:keyword" component={HomeScreen} exact />
+          <Route path="/page/:pageNumber" component={HomeScreen} />
+
+          <Route
+            path="/search/:keyword/page/:pageNumber"
+            component={HomeScreen}
+          />
+          <Route path="/edit/:id" component={CreateScreen} exact />
+          <Route path="/details/:id" component={DiaryScreen} exact />
+        </Switch>
       </Container>
     </Router>
   );

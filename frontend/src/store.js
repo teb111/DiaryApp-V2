@@ -6,7 +6,12 @@ import {
   userRegisterReducer,
   userLoginReducer,
 } from "./reducers/userReducer";
-import { createDiaryReducer, diaryListReducer } from "./reducers/diaryReducer";
+import {
+  createDiaryReducer,
+  diaryListByIdReducer,
+  diaryListReducer,
+  updateDiaryReducer,
+} from "./reducers/diaryReducer";
 
 const reducer = combineReducers({
   userRegister: userRegisterReducer,
@@ -14,6 +19,8 @@ const reducer = combineReducers({
   userLogin: userLoginReducer,
   diaryCreate: createDiaryReducer,
   diaryList: diaryListReducer,
+  diaryUpdate: updateDiaryReducer,
+  diaryListById: diaryListByIdReducer,
 });
 
 const userInfoGoogleFromStorage = localStorage.getItem("userGoogle")

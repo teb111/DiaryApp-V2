@@ -15,6 +15,7 @@
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "classnames": "^2.3.1",
     "colors": "^1.4.0",
     "concurrently": "^6.1.0",
     "connect-mongo": "^4.4.1",
@@ -24,6 +25,7 @@
     "express-session": "^1.17.2",
     "google-auth-library": "^7.0.4",
     "jsonwebtoken": "^8.5.1",
+    "jw-paginate": "^1.0.4",
     "moment": "^2.29.1",
     "mongoose": "^5.12.10",
     "morgan": "^1.10.0",
