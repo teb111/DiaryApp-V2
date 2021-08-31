@@ -30,6 +30,7 @@ const DiarySchema = new mongoose.Schema(
     body: {
       type: String,
       required: true,
+      trim: false,
     },
     image: {
       type: String,
@@ -46,6 +47,11 @@ const DiarySchema = new mongoose.Schema(
     },
     readTime: {
       type: String,
+    },
+    numReviews: {
+      type: Number,
+      required: true,
+      default: 0,
     },
     comment: [CommentSchema],
   },

@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../actions/userActions";
 import { createDiary } from "../actions/diaryActions";
+import { Link } from "react-router-dom";
 
 const Nav = ({ history }) => {
   const dispatch = useDispatch();
@@ -13,12 +13,7 @@ const Nav = ({ history }) => {
   };
 
   const diaryCreate = useSelector((state) => state.diaryCreate);
-  const {
-    loading: loadingCreate,
-    error: errorCreate,
-    success: successCreate,
-    diary: createdDiary,
-  } = diaryCreate;
+  const { success: successCreate, diary: createdDiary } = diaryCreate;
 
   useEffect(() => {
     if (successCreate) {
@@ -39,7 +34,7 @@ const Nav = ({ history }) => {
         </button>
 
         <nav role="navigation" className="menu">
-          <a href="#" className="logotype">
+          <a href="/" className="logotype">
             DIARYAPP<span>-v2</span>
           </a>
 
@@ -54,8 +49,14 @@ const Nav = ({ history }) => {
                   <i className="fas fa-plus"></i>
                 </span>
               </li>
+              <Link to="/search" style={{ padding: "1em", cursor: "pointer" }}>
+                <span>Search</span>
+                <span className="icon">
+                  <i className="fas fa-search"></i>
+                </span>
+              </Link>
               <li className="menu-hasdropdown">
-                <a href="#">Settings</a>
+                <a href="/">Settings</a>
                 <span className="icon">
                   <i className="fas fa-cogs"></i>
                 </span>
@@ -84,10 +85,12 @@ const Nav = ({ history }) => {
                 </ul>
               </li>
 
-              <li>
-                <a style={{ cursor: "pointer" }} onClick={logoutHandler}>
-                  Logout
-                </a>
+              <li
+                style={{ padding: "1em", cursor: "pointer" }}
+                onClick={logoutHandler}
+              >
+                {" "}
+                Logout
                 <span className="icon">
                   <i className="fas fa-sign-out-alt"></i>
                 </span>

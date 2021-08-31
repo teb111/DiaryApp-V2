@@ -1,13 +1,20 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { EditorState, ContentState } from "draft-js";
+import { Editor } from "react-draft-wysiwyg";
+import { convertToHTML } from "draft-convert";
+import htmlToDraft from "html-to-draftjs";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import Header from "../components/Header";
 import Loader from "../components/Loader";
 import { getDiaryById, updateDiary } from "../actions/diaryActions";
 import AppLoader from "../components/AppLoader";
 import { DIARY_UPDATE_RESET } from "../constants/diaryConstant";
+import Footer from "../components/Footer";
+import Meta from "../components/Meta";
 
-const CreateScreen = ({ history, match }) => {
+const CreateScreen = ({ match, history }) => {
   const diaryId = match.params.id;
 
   // states
@@ -15,19 +22,37 @@ const CreateScreen = ({ history, match }) => {
   const [body, setBody] = useState("");
   const [image, setImage] = useState("");
   const [uploading, setUploading] = useState(false);
-  const [isPublic, setIsPublic] = useState(false);
+  const [isPublic, setIsPublic] = useState(true);
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+
+  const [unsplashImage, setUnsplashImage] = useState([]);
+  const [imageLoading, setImageLoading] = useState(true);
 
   const dispatch = useDispatch();
 
-  const diaryCreate = useSelector((state) => state.diaryCreate);
-  const {
-    loading: loadingCreate,
-    error: errorCreate,
-    success: successCreate,
-  } = diaryCreate;
+  const onEditorStateChange = (editorState) => {
+    setEditorState(editorState);
+
+    const contentState = convertToHTML({
+      blockToHTML: (block) => {
+        if (block.type === "image") {
+          return <img src={block.data.url} alt={block.text} />;
+        }
+        if (block.type === "code") {
+          return (
+            <pre>
+              <code>{block.text}</code>
+            </pre>
+          );
+        }
+      },
+    })(editorState._immutable.currentContent);
+    setBody(contentState);
+    console.log(body);
+  };
 
   const diaryListById = useSelector((state) => state.diaryListById);
-  const { loading, success, diary, error } = diaryListById;
+  const { loading, diary, error } = diaryListById;
 
   const diaryUpdate = useSelector((state) => state.diaryUpdate);
   const {
@@ -39,18 +64,28 @@ const CreateScreen = ({ history, match }) => {
   useEffect(() => {
     if (successUpdate) {
       dispatch({ type: DIARY_UPDATE_RESET });
-      history.push("/");
+      history.push(`/details/${diaryId}`);
     } else {
-      if (!diary.body || diary._id !== diaryId) {
+      if (!diary?.title || diary?._id !== diaryId) {
         dispatch(getDiaryById(diaryId));
+        console.log(diary);
       } else {
         setTitle(diary.title);
-        setBody(diary.body);
+
         setImage(diary.image);
         setIsPublic(diary.isPublic);
+        setImage(diary.image);
+        setBody(diary.body);
+        const contentBlock = htmlToDraft(diary.body);
+        const contentState = ContentState.createFromBlockArray(
+          contentBlock.contentBlocks
+        );
+        const bodyState = EditorState.createWithContent(contentState);
+        setEditorState(bodyState);
       }
     }
-  }, [history, successUpdate, dispatch, diary, diaryId]);
+  }, [history, dispatch, diaryId, diary, successUpdate]);
+
   //image uploading
   const uploadFileHandler = async (e) => {
     const file = e.target.files[0];
@@ -74,65 +109,124 @@ const CreateScreen = ({ history, match }) => {
     }
   };
 
+  const unsplashImages = (term) => {
+    fetch(
+      `https://api.unsplash.com/search/photos?query=${
+        term ? term : ""
+      }&client_id=${process.env.REACT_APP_CLIENT_ID}&per_page=30`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        // setUnsplashImage(data.results);
+        // setImageLoading(false);
+      })
+      .catch((err) => console.log(err));
+  };
+
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(updateDiary({ _id: diaryId, title, body, image, isPublic }));
   };
 
+  const geturl = (img) => {
+    console.log(img);
+    setImage(img.urls.regular);
+    unsplashImages();
+  };
+
   return (
     <>
-      <div className="group" style={{ marginBottom: "5px", marginTop: "15px" }}>
-        <Link
-          to="/"
-          className="btn account-btn"
-          style={{
-            width: "85%",
-            marginBottom: "5px",
-            marginTop: "3px",
-            textAlign: "center",
-          }}
-        >
-          <i className="fas fa-arrow-circle-left"></i> Go Back
-        </Link>
-      </div>
+      <Header history={history} />
+      <Meta title="Create a new Diary" />
       <div className="welcome-text">
         <h4 className="small-heading" style={{ color: "#010400" }}>
-          Add a New Diary
+          {diary?.title === "New Title" ? "Add a New Diary" : "Edit your Diary"}
         </h4>
       </div>
+      {loading && <AppLoader />}
+
+      {error && (
+        <div className="welcome-text">
+          <h4 className="small-heading" style={{ color: "red" }}>
+            {error}
+          </h4>
+        </div>
+      )}
       {loadingUpdate ? (
         <AppLoader />
       ) : (
         <div className="form-container">
           <form>
             <div className="group">
-              <label className="form-label">Title:</label>
               <input
-                type="email"
-                value={title}
+                type="text"
                 className="control"
                 placeholder="Give Your Diary a Title"
+                value={title}
                 onChange={(e) => setTitle(e.target.value)}
+                style={{
+                  borderWidth: "0px",
+                  borderBottom: "1px solid #1a1a1a",
+                  fontSize: "1.4rem",
+                  letterSpacing: "1.2px",
+                }}
               />
             </div>
 
-            <div className="group">
-              <label className="form-label">Body:</label>
-              <textarea
-                className="control"
-                value={body}
-                id="body"
-                name="body"
-                placeholder="Share how you truly feel"
-                onChange={(e) => setBody(e.target.value)}
-              ></textarea>
+            <div
+              className="group "
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "98%",
+              }}
+            >
+              <div className="editor control">
+                <Editor
+                  className="control"
+                  editorState={editorState}
+                  onEditorStateChange={onEditorStateChange}
+                  toolbar={{
+                    options: [
+                      "inline",
+                      "blockType",
+                      "fontSize",
+                      "textAlign",
+                      "list",
+                      "image",
+                    ],
+                    inline: { inDropdown: true },
+                    list: { inDropdown: true },
+                    textAlign: { inDropdown: true },
+                    link: { inDropdown: true },
+                    history: { inDropdown: true },
+                  }}
+                />
+              </div>
             </div>
 
-            <div className="group">
-              <label className="form-label">Image</label>
+            <div
+              className="group"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "98%",
+              }}
+            >
+              <label className="form-label" style={{ fontSize: "1.1rem" }}>
+                Image:
+              </label>
               <input
                 type="text"
-                style={{ padding: "4px", width: "30%" }}
+                style={{
+                  padding: "4px",
+                  width: "50%",
+                  marginRight: "5px",
+                  marginLeft: "2px",
+                }}
                 className="control"
                 placeholder="Enter Image Url"
                 value={image}
@@ -142,39 +236,124 @@ const CreateScreen = ({ history, match }) => {
                 type="file"
                 id="image-file"
                 label="Choose File"
-                custom
                 onChange={uploadFileHandler}
               />
               {uploading && <Loader />}
             </div>
 
+            <div
+              className="group"
+              style={{ margin: "0 auto", display: "flex" }}
+            >
+              <img
+                src={
+                  image.startsWith("https")
+                    ? image
+                    : image === "/uploads/sample.jpg"
+                    ? null
+                    : image
+                }
+                alt=""
+                className={
+                  image.includes("sample.jpg") ? "no-image" : "image-preview"
+                }
+              />
+            </div>
+
             <div className="group">
+              <input
+                type="text"
+                style={{ padding: "4px", width: "90%", marginTop: "4px" }}
+                className="control searchTerm"
+                placeholder="Type keywords to search for any image then click on any image of your choice"
+                onChange={(e) => unsplashImages(e.target.value)}
+              />
+              <div
+                className="image-container"
+                style={{
+                  marginTop: "5px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  backgroundColor: "#1a1a1a",
+                  width: "70%",
+                }}
+              >
+                <div
+                  style={{
+                    display: "grid",
+
+                    gridTemplateColumns: "repeat(2,minmax(0,1fr))",
+                    flexWrap: "wrap",
+                  }}
+                >
+                  {!imageLoading
+                    ? unsplashImage.map((img) => (
+                        <img
+                          key={img.id}
+                          src={img.urls.regular}
+                          alt=""
+                          style={{ cursor: "pointer" }}
+                          onClick={() => geturl(img)}
+                        />
+                      ))
+                    : ""}
+                </div>
+              </div>
+            </div>
+
+            <div
+              className="group"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "98%",
+              }}
+            >
               <label className="form-label">
-                Make Posts Public{" "}
-                <span style={{ fontSize: "12px", color: "grey" }}>
-                  (Post are Private by Default)
+                Make Posts Private{" "}
+                <span style={{ fontSize: "14px", color: "grey" }}>
+                  (Post are Public by Default)
                 </span>
               </label>{" "}
               <input
                 type="checkbox"
-                value={isPublic}
                 onChange={(e) => setIsPublic(!isPublic)}
-                style={{ margin: "2px" }}
+                style={{ margin: "2px", width: "30px", height: "28px" }}
+                checked={isPublic === false ? true : false}
               />
             </div>
 
             <div className="group">
               <div
                 className="btn account-btn"
-                style={{ width: "85%", textAlign: "center" }}
+                style={{ width: "90%", textAlign: "center", color: "#1a1a1a" }}
                 onClick={submitHandler}
               >
-                Create Diary <i className="fas fa-arrow-circle-right"></i>
+                {diary?.title === "New Title" ? "Create Diary" : "Edit Diary"}{" "}
+                <i className="fas fa-arrow-circle-right"></i>
               </div>
+              {errorUpdate && (
+                <strong
+                  style={{
+                    color: "#1a1a1a",
+                    padding: "4px",
+                    letterSpacing: "2px",
+                    fontSize: "20px",
+                    textAlign: "center",
+                    backgroundColor: "red",
+                  }}
+                >
+                  {error}
+                </strong>
+              )}
             </div>
           </form>
         </div>
       )}
+
+      <Footer />
     </>
   );
 };

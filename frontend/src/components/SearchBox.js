@@ -17,12 +17,16 @@ const SearchBox = ({ history }) => {
       <form className="search" onSubmit={submitHandler}>
         <input
           type="text"
-          class="searchTerm"
-          placeholder="What are you looking for?"
+          className="searchTerm"
+          placeholder="Type out any diary and press ENTER"
           onChange={(e) => setKeyword(e.target.value)}
         />
-        <button type="submit" class="searchButton">
-          <i class="fa fa-search"></i>
+        <button
+          type="submit"
+          className="searchButton"
+          style={{ marginRight: "2px" }}
+        >
+          <i className="fa fa-search"></i>
         </button>
       </form>
     </div>

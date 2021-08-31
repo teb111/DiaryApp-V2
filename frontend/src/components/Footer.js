@@ -4,7 +4,10 @@ const Footer = () => {
   return (
     <>
       <div className="footer-wrapper">
-        <h6 className="small-heading">Diary-app v2</h6>
+        <a href="/" className="small-heading">
+          {" "}
+          <i className="fas fa-book-open header-icon"></i>Diaryapp-v2
+        </a>
         <ul className="social-icons">
           <h5>Made By Oluwatobiloba</h5>
           <li>
@@ -13,7 +16,7 @@ const Footer = () => {
               target="_blank"
               rel="noreferrer"
             >
-              <i class="fab fa-twitter footer-icons"></i>
+              <i className="fab fa-twitter footer-icons"></i>
             </a>
           </li>
           <li>
@@ -22,7 +25,7 @@ const Footer = () => {
               target="_blank"
               rel="noreferrer"
             >
-              <i class="fab fa-github footer-icons"></i>
+              <i className="fab fa-github footer-icons"></i>
             </a>
           </li>
           <li>
@@ -31,7 +34,7 @@ const Footer = () => {
               target="_blank"
               rel="noreferrer"
             >
-              <i class="fab fa-instagram footer-icons"></i>
+              <i className="fab fa-instagram footer-icons"></i>
             </a>
           </li>
         </ul>

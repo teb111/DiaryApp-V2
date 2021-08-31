@@ -6,6 +6,7 @@ import { loginWithGoogle } from "../actions/userActions";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { loginUser } from "../actions/userActions";
+import Meta from "../components/Meta";
 
 const LoginScreen = ({ history }) => {
   const dispatch = useDispatch();
@@ -44,11 +45,16 @@ const LoginScreen = ({ history }) => {
 
   return (
     <>
+      <Meta title="Please Log In" />
       <div className="signup-container">
         <div className="account-left">
           <div className="account-text">
             <h1 className="login-text">
-              Personal Diary &nbsp; <i className="fas fa-book-open"></i>
+              Personal Diary &nbsp;{" "}
+              <i
+                className="fas fa-book-open header-icon"
+                style={{ borderColor: "#ccc" }}
+              ></i>
             </h1>
             <p className="login-text-primary">Keep Your Deepest Secrets Here</p>
           </div>
@@ -85,7 +91,7 @@ const LoginScreen = ({ history }) => {
                 </div>
               </div>
 
-              <div
+              {/* <div
                 style={{
                   marginBottom: "3px",
                 }}
@@ -120,7 +126,7 @@ const LoginScreen = ({ history }) => {
                     Forgot Password???
                   </h4>
                 </Link>
-              </div>
+              </div> */}
 
               <div className="group">
                 {error && (

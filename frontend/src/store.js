@@ -5,11 +5,17 @@ import {
   userLoginGoogleReducer,
   userRegisterReducer,
   userLoginReducer,
+  diaryBookmarkReducer,
+  getBookmarkReducer,
+  edituserReducer,
+  getUserDetailReducer,
 } from "./reducers/userReducer";
 import {
   createDiaryReducer,
+  diaryCreateReviewReducer,
   diaryListByIdReducer,
   diaryListReducer,
+  getUserDiaryReducer,
   updateDiaryReducer,
 } from "./reducers/diaryReducer";
 
@@ -21,6 +27,12 @@ const reducer = combineReducers({
   diaryList: diaryListReducer,
   diaryUpdate: updateDiaryReducer,
   diaryListById: diaryListByIdReducer,
+  diaryCreateReview: diaryCreateReviewReducer,
+  getUserDiaries: getUserDiaryReducer,
+  diaryBookmark: diaryBookmarkReducer,
+  getBookmarks: getBookmarkReducer,
+  editUser: edituserReducer,
+  getUserDetail: getUserDetailReducer,
 });
 
 const userInfoGoogleFromStorage = localStorage.getItem("userGoogle")

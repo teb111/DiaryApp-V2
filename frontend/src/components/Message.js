@@ -1,15 +1,15 @@
 import React from "react";
 import { Alert } from "react-bootstrap";
 
-const Message = ({ variant, children, iconClass, textcolor }) => {
+const Message = ({ variant, children, iconClass, textcolor, background }) => {
   return (
     <Alert
       style={{
-        background: "#fffffff5",
-        width: "max-content",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
+        background: "#262626",
+        width: "80vw",
+        display: "block",
+        textAlign: "center",
+        margin: "0 auto",
         padding: "3px",
         marginbottom: "2px",
       }}
@@ -26,6 +26,7 @@ const Message = ({ variant, children, iconClass, textcolor }) => {
 
 Message.defaultProps = {
   variant: "info",
+  background: "green",
 };
 
 export default Message;

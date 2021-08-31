@@ -1,6 +1,18 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 
+const BookmarkSchema = mongoose.Schema(
+  {
+    diary: {
+      type: String,
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
 const UserSchema = new mongoose.Schema(
   {
     // these are the fields we are going to get back if the user authenticate with google
@@ -21,10 +33,22 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    resetLink: {
-      data: String,
-      default: "",
+    bio: {
+      type: String,
     },
+    image: {
+      type: String,
+    },
+    linkedIn: {
+      type: String,
+    },
+    twitter: {
+      type: String,
+    },
+    instagram: {
+      type: String,
+    },
+    bookmarks: [BookmarkSchema],
   },
   {
     timestamps: true,

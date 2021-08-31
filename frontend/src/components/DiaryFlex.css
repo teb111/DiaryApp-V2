@@ -433,10 +433,10 @@ svg {
   vertical-align: middle;
 }
 
-img {
+.diary-image {
   width: 200px;
-  aspect-ratio: auto 200 / 134;
-  height: 134px;
+  aspect-ratio: auto 200 / 170;
+  height: 170px;
 }
 
 .title {
@@ -445,6 +445,20 @@ img {
   color: rgba(0, 0, 0, 0.741);
   font-weight: 600;
   letter-spacing: 1px;
+}
+
+.body p {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.body h1,
+.body h2,
+.body h3,
+.body h4,
+.body h5,
+.body h6 {
+  display: none;
 }
 
 .body {
@@ -459,7 +473,32 @@ img {
 }
 
 @media screen and (max-width: 520px) {
+  .diary-image {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+  }
+
   .image-control {
+    height: auto;
+  }
+
+  .diary-image {
+    width: 100px;
+    aspect-ratio: auto 100 / 100;
+    height: 100px;
+  }
+
+  .qt .title {
     display: none;
+  }
+
+  .title {
+    font-weight: 300;
+  }
+
+  .id {
+    font-size: 12px;
+    letter-spacing: 1px;
+    font-weight: bold;
   }
 }

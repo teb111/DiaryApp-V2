@@ -71,7 +71,7 @@ const Paginate = ({ pager, keyword }) => {
               to={
                 keyword
                   ? `/search/${keyword}/page/${pager.totalPages}`
-                  : `page/${pager.totalPages}`
+                  : `/page/${pager.totalPages}`
               }
               className="page-link"
             >
