@@ -12,6 +12,7 @@ import { DIARY_CREATE_REVIEW_REQUEST } from "../constants/diaryConstant";
 import parse from "html-react-parser";
 import Footer from "../components/Footer";
 import Meta from "../components/Meta";
+import { grey } from "colors";
 
 const DiaryScreen = ({ match, history }) => {
   const [rating, setRating] = useState(0);
@@ -70,7 +71,7 @@ const DiaryScreen = ({ match, history }) => {
             <div style={{ paddingLeft: "30px" }}>
               <div>
                 <a
-                  href={`/user/${diary.user && diary.user._id}`}
+                  href={`/user/${diary?.user && diary.user?._id}`}
                   style={{
                     letterSpacing: "1.4px",
                     fontWeight: "100",
@@ -95,6 +96,8 @@ const DiaryScreen = ({ match, history }) => {
                 )}
                 <br />
 
+                {console.log(diary.author)}
+
                 <span style={{ letterSpacing: "1.2px" }}>
                   {Date(diary.createdAt).substring(0, 10)}. &nbsp;
                 </span>
@@ -114,6 +117,39 @@ const DiaryScreen = ({ match, history }) => {
                   height="500"
                 />
               </div>
+              {diary.author ? (
+                <div
+                  className="group"
+                  style={{ color: "grey", letterSpacing: "1.7px" }}
+                >
+                  Photo by &nbsp;{" "}
+                  <a
+                    href={diary.authorlink}
+                    style={{ color: "#1a1a1a", textTransform: "uppercase" }}
+                  >
+                    {diary.author}
+                  </a>{" "}
+                  &nbsp; from &nbsp;{" "}
+                  <a
+                    href={diary.link}
+                    style={{ color: "#1a1a1a", textTransform: "uppercase" }}
+                  >
+                    Unsplash
+                  </a>
+                </div>
+              ) : (
+                <div
+                  className="group"
+                  style={{ color: "grey", letterSpacing: "1.7px" }}
+                >
+                  Photo by &nbsp;{" "}
+                  <span
+                    style={{ color: "#1a1a1a", textTransform: "uppercase" }}
+                  >
+                    author
+                  </span>{" "}
+                </div>
+              )}
             </figure>
             <div className="diary-body">{parse(diary.body)}</div>
             <hr />

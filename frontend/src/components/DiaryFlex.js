@@ -18,7 +18,7 @@ const DiaryFlex = ({
   const dispatch = useDispatch();
 
   const bookmarkPost = (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     dispatch(createBookmark(id));
     console.log("bookmark");
   };
@@ -96,10 +96,14 @@ const DiaryFlex = ({
                                   <div>
                                     <div className="cu">
                                       <button
-                                        className="bd be bf bg bh bi bj bk bl bm bn bo bp bq br"
+                                        className="bd be bf bg bh bi bj bk bl bm bn bo bp bq br bookmark"
                                         aria-label="Bookmark Post"
                                         onClick={bookmarkPost}
-                                        style={{ cursor: "pointer" }}
+                                        style={{
+                                          cursor: "pointer",
+                                          padding: "4px",
+                                          background: "none",
+                                        }}
                                       >
                                         <div className="bookmark">
                                           <label className="bookmark">

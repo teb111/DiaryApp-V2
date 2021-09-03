@@ -1569,10 +1569,22 @@ h4,
 }
 
 .diary-body h2 {
-  font-size: 1.7em;
+  font-size: 1.5em;
+  letter-spacing: 1.6px;
+  font-weight: bolder;
+  margin: 5px;
+}
+.diary-body h3 {
+  font-size: 1.3em;
+  letter-spacing: 1.6px;
+  font-weight: bolder;
+  margin: 5px;
 }
 .diary-body h1 {
   font-size: 2em;
+  letter-spacing: 1.5px;
+  font-weight: bolder;
+  margin: 10px;
 }
 
 .diary-body {
@@ -1921,7 +1933,7 @@ h4,
 /* bookmark styles */
 
 .bookmark {
-  zoom: 2;
+  transform: scale(1.6);
   --active: #ff4141;
   --border: #3f4656;
   --duration: 1.2s;
@@ -1938,18 +1950,16 @@ h4,
 .bookmark input + div {
   position: relative;
   perspective: 160px;
-  width: 8px;
-  height: 8px;
+
   overflow: hidden;
 }
 .bookmark input + div svg {
-  margin: 0 auto;
+  margin: 0px 4px;
   display: block;
-  width: 4px;
-  height: 8px;
+  width: 6px;
+  height: 5px;
 }
 .bookmark input + div svg.background {
-  color: var(--border);
   stroke-width: 1px;
   fill: none;
 }

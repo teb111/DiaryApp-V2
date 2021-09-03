@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import $ from "jquery";
 import { useSelector, useDispatch } from "react-redux";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
@@ -14,9 +15,21 @@ const BookmarkScreen = ({ history }) => {
   const getBookmarks = useSelector((state) => state.getBookmarks);
   const { loading, success, bookmarks } = getBookmarks;
 
+  const diaryBookmark = useSelector((state) => state.diaryBookmark);
+  const { message } = diaryBookmark;
+
   useEffect(() => {
     dispatch(getBookmark());
   }, [dispatch]);
+
+  if (message) {
+    $(".notify").toggleClass("active");
+    $("#notifyType").toggleClass("success");
+    setTimeout(function () {
+      $(".notify").removeClass("active");
+      $("#notifyType").removeClass("success");
+    }, 3000);
+  }
   return (
     <>
       <Top />
@@ -28,6 +41,21 @@ const BookmarkScreen = ({ history }) => {
       >
         Your Bookmarks
       </h1>
+      <div className="notify">
+        <span
+          id="notifyType"
+          className=""
+          style={{
+            letterSpacing: "2.2px",
+            fontSize: "1.3em",
+            display: "block",
+            margin: "0 auto",
+            paddingTop: "10px",
+          }}
+        >
+          {message && message.message}
+        </span>
+      </div>
       <hr style={{ marginTop: "0" }} />
       <div id="diary-content">
         {loading && <AppLoader />}
@@ -37,6 +65,7 @@ const BookmarkScreen = ({ history }) => {
                 <DiaryFlex
                   key={book._id}
                   user={book.user && book.user.name}
+                  userImage={book.user && book.user.image}
                   title={book.title}
                   body={book.body}
                   image={book.image}

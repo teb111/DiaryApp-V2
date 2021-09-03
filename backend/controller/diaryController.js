@@ -32,7 +32,7 @@ const createDiary = asyncHandler(async (req, res) => {
 
 const editDiary = asyncHandler(async (req, res) => {
   try {
-    const { title, body, image, isPublic } = req.body;
+    const { title, body, image, isPublic, author, link, authorLink } = req.body;
 
     const diary = await Diary.findById(req.params.id);
 
@@ -42,6 +42,9 @@ const editDiary = asyncHandler(async (req, res) => {
         (diary.body = body),
         (diary.image = image),
         (diary.isPublic = isPublic);
+      diary.author = author;
+      diary.link = link;
+      diary.authorlink = authorLink;
       await diary.setReadTime(body);
       const updatedDiary = await diary.save();
       res.json(updatedDiary);
@@ -149,7 +152,7 @@ const createComment = asyncHandler(async (req, res) => {
 });
 
 // Get top rated diaries
-// route GET /api/diary/toprated
+// route GET /api/diary/:id/user
 //access public
 
 const getUserDiaries = asyncHandler(async (req, res) => {
@@ -157,7 +160,7 @@ const getUserDiaries = asyncHandler(async (req, res) => {
 
   const diaries = await Diary.find({
     user: req.params.id,
-  }).populate("user", "name email");
+  }).populate("user", "name email image");
 
   res.json(diaries);
 });

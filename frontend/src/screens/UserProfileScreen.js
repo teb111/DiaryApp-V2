@@ -106,6 +106,7 @@ const UserProfileScreen = ({ match, history }) => {
               <DiaryFlex
                 key={diary._id}
                 user={diary.user && diary.user.name}
+                userImage={diary.user && diary.user.image}
                 title={diary.title}
                 body={diary.body}
                 image={diary.image}

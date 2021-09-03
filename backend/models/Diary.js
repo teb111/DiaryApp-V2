@@ -53,6 +53,18 @@ const DiarySchema = new mongoose.Schema(
       required: true,
       default: 0,
     },
+    author: {
+      type: String,
+      required: true,
+    },
+    link: {
+      type: String,
+      required: true,
+    },
+    authorlink: {
+      type: String,
+      required: true,
+    },
     comment: [CommentSchema],
   },
   {

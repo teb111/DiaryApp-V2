@@ -31,17 +31,10 @@ const HomeScreen = ({ match, history }) => {
   const { userInfo } = userLogin;
 
   const diaryBookmark = useSelector((state) => state.diaryBookmark);
-  const { loading: loadingBookmark, success, message } = diaryBookmark;
+  const { message } = diaryBookmark;
 
   const diaryList = useSelector((state) => state.diaryList);
-  const {
-    loading,
-    success: diarySuccess,
-    diaries,
-    pager,
-    pageOfItems,
-    error,
-  } = diaryList;
+  const { loading, success: diarySuccess, diaries, pager, error } = diaryList;
 
   const diaryUpdate = useSelector((state) => state.diaryUpdate);
   const { success: successUpdate, error: errorUpdate } = diaryUpdate;
@@ -67,7 +60,6 @@ const HomeScreen = ({ match, history }) => {
   ]);
 
   if (message) {
-    console.log("Good");
     $(".notify").toggleClass("active");
     $("#notifyType").toggleClass("success");
     setTimeout(function () {

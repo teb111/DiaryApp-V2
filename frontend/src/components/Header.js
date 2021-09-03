@@ -64,10 +64,25 @@ const Header = ({ history }) => {
           </Link>
           <li style={{ marginRight: "5px", marginLeft: "5px" }}>
             <a href="/profile">
-              <i
+              {/* <i
                 className="far fa-user"
                 style={{ fontSize: "1.4em", color: "rgba(117, 117, 117, 1)" }}
-              ></i>
+              ></i> */}
+
+              <img
+                src={
+                  (userInfo && userInfo.image) ||
+                  (userGoogle && userGoogle.image)
+                }
+                alt="you"
+                style={{
+                  fontSize: "1.4em",
+                  color: "rgba(117, 117, 117, 1)",
+                  borderRadius: "8px",
+                }}
+                width="30"
+                height="25"
+              />
             </a>
           </li>
 

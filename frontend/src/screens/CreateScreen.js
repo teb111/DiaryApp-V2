@@ -27,6 +27,9 @@ const CreateScreen = ({ match, history }) => {
 
   const [unsplashImage, setUnsplashImage] = useState([]);
   const [imageLoading, setImageLoading] = useState(true);
+  const [author, setAuthor] = useState("Author");
+  const [link, setLink] = useState("");
+  const [authorLink, setAuthorLink] = useState("");
 
   const dispatch = useDispatch();
 
@@ -117,21 +120,40 @@ const CreateScreen = ({ match, history }) => {
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        // setUnsplashImage(data.results);
-        // setImageLoading(false);
+        console.log(data.results);
+        setUnsplashImage(data.results);
+        setImageLoading(false);
       })
       .catch((err) => console.log(err));
   };
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(updateDiary({ _id: diaryId, title, body, image, isPublic }));
+    dispatch(
+      updateDiary({
+        _id: diaryId,
+        title,
+        body,
+        image,
+        isPublic,
+        author,
+        link,
+        authorLink,
+      })
+    );
   };
 
   const geturl = (img) => {
     console.log(img);
     setImage(img.urls.regular);
+    setAuthor(img.user.username);
+    setLink(
+      `${img.links.html}?utm_source=unsplash&utm_diaryapp-v2=referral&utm_content=creditCopyTex`
+    );
+    setAuthorLink(
+      `${img.user.links.html}?utm_source=unsplash&utm_diaryapp-v2=referral&utm_content=creditCopyTex`
+    );
+    console.log(author);
     unsplashImages();
   };
 
@@ -265,8 +287,8 @@ const CreateScreen = ({ match, history }) => {
                 type="text"
                 style={{ padding: "4px", width: "90%", marginTop: "4px" }}
                 className="control searchTerm"
-                placeholder="Type keywords to search for any image then click on any image of your choice"
-                onChange={(e) => unsplashImages(e.target.value)}
+                placeholder="Type keywords to search UNSPLASH for any image then enter"
+                onKeyUp={(e) => unsplashImages(e.target.value)}
               />
               <div
                 className="image-container"
