@@ -1,4 +1,5 @@
 import axios from "axios";
+import { createClient } from "pexels";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { EditorState, ContentState } from "draft-js";
@@ -31,6 +32,8 @@ const CreateScreen = ({ match, history }) => {
   const [link, setLink] = useState("");
   const [authorLink, setAuthorLink] = useState("");
 
+  const client = createClient(process.env.REACT_APP_CLIENT_ID);
+
   const dispatch = useDispatch();
 
   const onEditorStateChange = (editorState) => {
@@ -51,7 +54,6 @@ const CreateScreen = ({ match, history }) => {
       },
     })(editorState._immutable.currentContent);
     setBody(contentState);
-    console.log(body);
   };
 
   const diaryListById = useSelector((state) => state.diaryListById);
@@ -71,7 +73,6 @@ const CreateScreen = ({ match, history }) => {
     } else {
       if (!diary?.title || diary?._id !== diaryId) {
         dispatch(getDiaryById(diaryId));
-        console.log(diary);
       } else {
         setTitle(diary.title);
 
@@ -112,19 +113,11 @@ const CreateScreen = ({ match, history }) => {
     }
   };
 
-  const unsplashImages = (term) => {
-    fetch(
-      `https://api.unsplash.com/search/photos?query=${
-        term ? term : ""
-      }&client_id=${process.env.REACT_APP_CLIENT_ID}&per_page=30`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data.results);
-        setUnsplashImage(data.results);
-        setImageLoading(false);
-      })
-      .catch((err) => console.log(err));
+  const unsplashImages = (query) => {
+    client.photos.search({ query, per_page: 30 }).then((photos) => {
+      setUnsplashImage(photos.photos);
+      setImageLoading(false);
+    });
   };
 
   const submitHandler = (e) => {
@@ -144,17 +137,16 @@ const CreateScreen = ({ match, history }) => {
   };
 
   const geturl = (img) => {
-    console.log(img);
-    setImage(img.urls.regular);
-    setAuthor(img.user.username);
+    setImage(img.src.original);
+    setAuthor(img.photographer);
     setLink(
-      `${img.links.html}?utm_source=unsplash&utm_diaryapp-v2=referral&utm_content=creditCopyTex`
+      `${img.url}?utm_source=peexels&utm_diaryapp-v2=referral&utm_content=creditCopyTex`
     );
     setAuthorLink(
-      `${img.user.links.html}?utm_source=unsplash&utm_diaryapp-v2=referral&utm_content=creditCopyTex`
+      `${img.photographer_url}?utm_source=pexels&utm_diaryapp-v2=referral&utm_content=creditCopyTex`
     );
-    console.log(author);
-    unsplashImages();
+
+    setImageLoading(true);
   };
 
   return (
@@ -217,7 +209,6 @@ const CreateScreen = ({ match, history }) => {
                       "fontSize",
                       "textAlign",
                       "list",
-                      "image",
                     ],
                     inline: { inDropdown: true },
                     list: { inDropdown: true },
@@ -287,8 +278,10 @@ const CreateScreen = ({ match, history }) => {
                 type="text"
                 style={{ padding: "4px", width: "90%", marginTop: "4px" }}
                 className="control searchTerm"
-                placeholder="Type keywords to search UNSPLASH for any image then enter"
-                onKeyUp={(e) => unsplashImages(e.target.value)}
+                placeholder="Type keywords to search PEXELS for any image then enter"
+                onKeyUp={(e) => {
+                  unsplashImages(e.target.value);
+                }}
               />
               <div
                 className="image-container"
@@ -310,13 +303,16 @@ const CreateScreen = ({ match, history }) => {
                   }}
                 >
                   {!imageLoading
-                    ? unsplashImage.map((img) => (
+                    ? unsplashImage?.map((img) => (
                         <img
                           key={img.id}
-                          src={img.urls.regular}
+                          src={img.src.original}
                           alt=""
                           style={{ cursor: "pointer" }}
                           onClick={() => geturl(img)}
+                          width="100"
+                          height="100"
+                          loading="eager"
                         />
                       ))
                     : ""}

@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Route } from "react-router-dom";
+import Joyride from "react-joyride";
 import $ from "jquery";
 import { useSelector, useDispatch } from "react-redux";
 import { listDiary } from "../actions/diaryActions";
@@ -18,7 +19,40 @@ import Message from "../components/Message";
 import Meta from "../components/Meta";
 
 const HomeScreen = ({ match, history }) => {
+  const tourSteps = [
+    {
+      target: "#diary-content",
+      placement: "center",
+      title: "Walkthrough",
+      content:
+        "Seems like it’s your first time here. Follow this quick walkthrough to know how get around. ",
+      disableBeacon: false,
+    },
+    {
+      target: ".plus",
+      content: "Click on the plus icon above to add a new diary.",
+      disableBeacon: true,
+    },
+    {
+      target: ".avatar",
+      content:
+        "Click on the avatar icon above to edit your profile, Upload an image to stop seeing this walkthrough steps",
+      disableBeacon: true,
+    },
+    {
+      target: ".sign-out",
+      content: "Click on the Logout icon above to log out",
+      disableBeacon: true,
+    },
+    {
+      target: ".user",
+      content: "Click on the username to check out their diaries",
+      disableBeacon: true,
+    },
+  ];
+
   const keyword = match.params.keyword;
+  const [steps] = useState(tourSteps);
 
   const pageNumber = match.params.pageNumber || 1;
 
@@ -70,10 +104,14 @@ const HomeScreen = ({ match, history }) => {
 
   return (
     <>
+      {!(userInfo && userInfo.image) || (userGoogle && userGoogle.image) ? (
+        <Joyride steps={steps} continuous={true} showSkipButton={true} />
+      ) : (
+        ""
+      )}
       <Top />
       <Header history={history} />
       <Meta title="Public Diaries" />
-
       <div id="diary-content">
         {errorUpdate && (
           <Message textcolor="red" iconClass="fas fa-times" background="green">
@@ -173,9 +211,7 @@ const HomeScreen = ({ match, history }) => {
 
         {/* condition 2 ends */}
       </div>
-
       <hr style={{ margin: "0" }} />
-
       <Footer />
     </>
   );

@@ -22,10 +22,6 @@ if (process.env.NODE_ENV === "development") {
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("This is working");
-});
-
 // routes
 app.use("/auth/google", authRoutes);
 app.use("/api/users", userRoutes);
@@ -35,6 +31,18 @@ app.use("/api/uploads", uploadRoutes);
 // images
 const __dirname = path.resolve();
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "frontend/build")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
+  });
+} else {
+  app.get("/", (req, res) => {
+    res.send("This is working");
+  });
+}
 
 const PORT = process.env.PORT || 5000;
 

@@ -134,7 +134,7 @@ const DiaryScreen = ({ match, history }) => {
                     href={diary.link}
                     style={{ color: "#1a1a1a", textTransform: "uppercase" }}
                   >
-                    Unsplash
+                    Pexels
                   </a>
                 </div>
               ) : (

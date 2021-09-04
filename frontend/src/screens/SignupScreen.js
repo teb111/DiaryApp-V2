@@ -61,7 +61,6 @@ const SignupScreen = ({ history }) => {
       setMessage("Passwords do not match, Please confirm and ReType");
     } else {
       dispatch(registerUser({ name, email, password, image }));
-      console.log(name, email, password, image);
     }
   };
 

@@ -112,8 +112,6 @@ const loginUser = asyncHandler(async (req, res) => {
 
   const user = await User.findOne({ email });
 
-  console.log(user);
-
   // checking to see if the password the user entered correlates with the one in the database with our method from userModel
   if (user && (await user.matchPassword(password))) {
     res.json({
@@ -230,7 +228,6 @@ const getBookmarks = asyncHandler(async (req, res) => {
 
     const diaries = bookmarks.forEach(function (book) {
       books.push(mongoose.Types.ObjectId(String(book)));
-      console.log(books);
     });
 
     const bookmark = await Diary.find(

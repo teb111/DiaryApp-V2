@@ -30,7 +30,6 @@ const Header = ({ history }) => {
 
   const logoutHandler = () => {
     dispatch(logout());
-    console.log("logout");
   };
   const createDiaryHandler = () => {
     dispatch(createDiary());
@@ -62,27 +61,33 @@ const Header = ({ history }) => {
               ></path>
             </svg>
           </Link>
-          <li style={{ marginRight: "5px", marginLeft: "5px" }}>
+          <li
+            style={{ marginRight: "5px", marginLeft: "5px" }}
+            className="avatar"
+          >
             <a href="/profile">
-              {/* <i
-                className="far fa-user"
-                style={{ fontSize: "1.4em", color: "rgba(117, 117, 117, 1)" }}
-              ></i> */}
-
-              <img
-                src={
-                  (userInfo && userInfo.image) ||
-                  (userGoogle && userGoogle.image)
-                }
-                alt="you"
-                style={{
-                  fontSize: "1.4em",
-                  color: "rgba(117, 117, 117, 1)",
-                  borderRadius: "8px",
-                }}
-                width="30"
-                height="25"
-              />
+              {(userInfo && userInfo.image) ||
+              (userGoogle && userGoogle.image) ? (
+                <img
+                  src={
+                    (userInfo && userInfo.image) ||
+                    (userGoogle && userGoogle.image)
+                  }
+                  alt="you"
+                  style={{
+                    fontSize: "1.4em",
+                    color: "rgba(117, 117, 117, 1)",
+                    borderRadius: "8px",
+                  }}
+                  width="30"
+                  height="25"
+                />
+              ) : (
+                <i
+                  className="far fa-user"
+                  style={{ fontSize: "1.4em", color: "rgba(117, 117, 117, 1)" }}
+                ></i>
+              )}
             </a>
           </li>
 
@@ -107,6 +112,7 @@ const Header = ({ history }) => {
                 fontSize: "1.4em",
                 color: "rgba(117, 117, 117, 1)",
               }}
+              className="plus"
             >
               <i className="fas fa-plus" title="Create Diary"></i>
             </li>
@@ -119,6 +125,7 @@ const Header = ({ history }) => {
               color: "rgba(117, 117, 117, 1)",
             }}
             onClick={logoutHandler}
+            className="sign-out"
           >
             <i className="fas fa-sign-out-alt" title="Sign Out"></i>
           </li>

@@ -55,15 +55,12 @@ const DiarySchema = new mongoose.Schema(
     },
     author: {
       type: String,
-      required: true,
     },
     link: {
       type: String,
-      required: true,
     },
     authorlink: {
       type: String,
-      required: true,
     },
     comment: [CommentSchema],
   },

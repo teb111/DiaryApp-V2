@@ -20,7 +20,6 @@ const DiaryFlex = ({
   const bookmarkPost = (e) => {
     e.preventDefault();
     dispatch(createBookmark(id));
-    console.log("bookmark");
   };
 
   return (
@@ -51,7 +50,7 @@ const DiaryFlex = ({
                                   <div className="af">
                                     <a
                                       href={`/user/${userId}`}
-                                      className="bd be bf bg bh bi bj bk bl bm bn bo bp bq br"
+                                      className="bd be bf bg bh bi bj bk bl bm bn bo bp bq br user"
                                     >
                                       <h4 className="ca fw id hw kn mr ms mt mu mv mw cd mx">
                                         {user}
