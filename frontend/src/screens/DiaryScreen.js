@@ -1,53 +1,52 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { createDiaryReview, getDiaryById } from "../actions/diaryActions";
-import AppLoader from "../components/AppLoader";
-import Header from "../components/Header";
-import Rating from "../components/Rating";
-import Top from "../components/Top";
-import Message from "../components/Message";
-import ErrorPage from "../components/ErrorPage";
-import { DIARY_CREATE_REVIEW_REQUEST } from "../constants/diaryConstant";
-import parse from "html-react-parser";
-import Footer from "../components/Footer";
-import Meta from "../components/Meta";
-import { grey } from "colors";
+import React, { useState, useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { Link } from "react-router-dom"
+import { createDiaryReview, getDiaryById } from "../actions/diaryActions"
+import AppLoader from "../components/AppLoader"
+import Header from "../components/Header"
+import Rating from "../components/Rating"
+import Top from "../components/Top"
+import Message from "../components/Message"
+import ErrorPage from "../components/ErrorPage"
+import { DIARY_CREATE_REVIEW_REQUEST } from "../constants/diaryConstant"
+import parse from "html-react-parser"
+import Footer from "../components/Footer"
+import Meta from "../components/Meta"
 
 const DiaryScreen = ({ match, history }) => {
-  const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState("");
+  const [rating, setRating] = useState(0)
+  const [comment, setComment] = useState("")
 
-  const diaryId = match.params.id;
-  const dispatch = useDispatch();
+  const diaryId = match.params.id
+  const dispatch = useDispatch()
 
-  const diaryListById = useSelector((state) => state.diaryListById);
-  const { loading, success, error, diary } = diaryListById;
+  const diaryListById = useSelector((state) => state.diaryListById)
+  const { loading, success, error, diary } = diaryListById
 
-  const userLoginGoogle = useSelector((state) => state.userLoginGoogle);
-  const { userGoogle } = userLoginGoogle;
+  const userLoginGoogle = useSelector((state) => state.userLoginGoogle)
+  const { userGoogle } = userLoginGoogle
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
 
-  const diaryCreateReview = useSelector((state) => state.diaryCreateReview);
+  const diaryCreateReview = useSelector((state) => state.diaryCreateReview)
   const { success: successDiaryReview, error: errorDiaryReview } =
-    diaryCreateReview;
+    diaryCreateReview
 
   useEffect(() => {
     if (successDiaryReview) {
-      alert("Review Created");
-      setRating(0);
-      setComment("");
-      dispatch({ type: DIARY_CREATE_REVIEW_REQUEST });
+      alert("Review Created")
+      setRating(0)
+      setComment("")
+      dispatch({ type: DIARY_CREATE_REVIEW_REQUEST })
     }
-    dispatch(getDiaryById(match.params.id));
-  }, [dispatch, match, successDiaryReview]);
+    dispatch(getDiaryById(match.params.id))
+  }, [dispatch, match, successDiaryReview])
 
   const submitHandler = (e) => {
-    e.preventDefault();
-    dispatch(createDiaryReview(match.params.id, { rating, comment }));
-  };
+    e.preventDefault()
+    dispatch(createDiaryReview(match.params.id, { rating, comment }))
+  }
 
   return (
     <>
@@ -75,7 +74,7 @@ const DiaryScreen = ({ match, history }) => {
                   style={{
                     letterSpacing: "1.4px",
                     fontWeight: "100",
-                    color: "#1a1a1a",
+                    color: "#1a1a1a"
                   }}
                 >
                   {diary.user && diary.user.name} &nbsp;{" "}
@@ -221,7 +220,7 @@ const DiaryScreen = ({ match, history }) => {
                       style={{
                         width: "85%",
                         textAlign: "center",
-                        color: "black",
+                        color: "black"
                       }}
                       onClick={submitHandler}
                     >
@@ -239,7 +238,7 @@ const DiaryScreen = ({ match, history }) => {
       </div>
       <Footer />
     </>
-  );
-};
+  )
+}
 
-export default DiaryScreen;
+export default DiaryScreen
