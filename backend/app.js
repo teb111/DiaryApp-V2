@@ -8,6 +8,7 @@ import authRoutes from "./routes/authRoutes.js"
 import userRoutes from "./routes/userRoutes.js"
 import diaryRoutes from "./routes/diaryRoutes.js"
 import uploadRoutes from "./routes/uploadRoutes.js"
+import cors from "cors"
 
 //load config
 dotenv.config({})
@@ -21,6 +22,8 @@ if (process.env.NODE_ENV === "development") {
 }
 
 app.use(express.json())
+
+app.use(cors())
 
 // routes
 app.use("/auth/google", authRoutes)

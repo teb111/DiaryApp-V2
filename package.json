@@ -10,7 +10,7 @@
     "server": "nodemon backend/app",
     "client": "npm start --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "heroku-postbuild":"NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build  --prefix frontend"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build  --prefix frontend"
   },
   "author": "Oluwa Tobiloba",
   "license": "MIT",
@@ -20,6 +20,7 @@
     "colors": "^1.4.0",
     "concurrently": "^6.1.0",
     "connect-mongo": "^4.4.1",
+    "cors": "^2.8.5",
     "dotenv": "^9.0.2",
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
