@@ -1,7 +1,7 @@
 {
   "name": "diaryapp-version2",
   "version": "2.0.0",
-  "proxy": "http://127.0.0.1:5000",
+  "proxy": "http://127.0.0.1:5001",
   "description": "Personal Diary Application",
   "main": "app.js",
   "type": "module",
