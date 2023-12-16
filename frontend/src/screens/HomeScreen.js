@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { Link, Route } from "react-router-dom";
-import Joyride from "react-joyride";
-import $ from "jquery";
-import { useSelector, useDispatch } from "react-redux";
-import { listDiary } from "../actions/diaryActions";
-import DiaryFlex from "../components/DiaryFlex";
+import React, { useEffect, useState } from "react"
+import { Link, Route } from "react-router-dom"
+import Joyride from "react-joyride"
+import $ from "jquery"
+import { useSelector, useDispatch } from "react-redux"
+import { listDiary } from "../actions/diaryActions"
+import DiaryFlex from "../components/DiaryFlex"
 import {
   CREATE_DIARY_RESET,
-  DIARY_UPDATE_RESET,
-} from "../constants/diaryConstant";
-import AppLoader from "../components/AppLoader";
-import Paginate from "../components/Paginate";
-import SearchBox from "../components/SearchBox";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
-import Top from "../components/Top";
-import Message from "../components/Message";
-import Meta from "../components/Meta";
+  DIARY_UPDATE_RESET
+} from "../constants/diaryConstant"
+import AppLoader from "../components/AppLoader"
+import Paginate from "../components/Paginate"
+import SearchBox from "../components/SearchBox"
+import Footer from "../components/Footer"
+import Header from "../components/Header"
+import Top from "../components/Top"
+import Message from "../components/Message"
+import Meta from "../components/Meta"
 
 const HomeScreen = ({ match, history }) => {
   const tourSteps = [
@@ -26,63 +26,63 @@ const HomeScreen = ({ match, history }) => {
       title: "Walkthrough",
       content:
         "Seems like it’s your first time here. Follow this quick walkthrough to know how get around. ",
-      disableBeacon: false,
+      disableBeacon: false
     },
     {
       target: ".plus",
       content: "Click on the plus icon above to add a new diary.",
-      disableBeacon: true,
+      disableBeacon: true
     },
     {
       target: ".avatar",
       content:
         "Click on the avatar icon above to edit your profile, Upload an image to stop seeing this walkthrough steps",
-      disableBeacon: true,
+      disableBeacon: true
     },
     {
       target: ".sign-out",
       content: "Click on the Logout icon above to log out",
-      disableBeacon: true,
+      disableBeacon: true
     },
     {
       target: ".user",
       content: "Click on the username to check out their diaries",
-      disableBeacon: true,
-    },
-  ];
+      disableBeacon: true
+    }
+  ]
 
-  const keyword = match.params.keyword;
-  const [steps] = useState(tourSteps);
+  const keyword = match.params.keyword
+  const [steps] = useState(tourSteps)
 
-  const pageNumber = match.params.pageNumber || 1;
+  const pageNumber = match.params.pageNumber || 1
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const userLoginGoogle = useSelector((state) => state.userLoginGoogle);
-  const { userGoogle } = userLoginGoogle;
+  const userLoginGoogle = useSelector((state) => state.userLoginGoogle)
+  const { userGoogle } = userLoginGoogle
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
 
-  const diaryBookmark = useSelector((state) => state.diaryBookmark);
-  const { message } = diaryBookmark;
+  const diaryBookmark = useSelector((state) => state.diaryBookmark)
+  const { message } = diaryBookmark
 
-  const diaryList = useSelector((state) => state.diaryList);
-  const { loading, success: diarySuccess, diaries, pager, error } = diaryList;
+  const diaryList = useSelector((state) => state.diaryList)
+  const { loading, success: diarySuccess, diaries, pager, error } = diaryList
 
-  const diaryUpdate = useSelector((state) => state.diaryUpdate);
-  const { success: successUpdate, error: errorUpdate } = diaryUpdate;
+  const diaryUpdate = useSelector((state) => state.diaryUpdate)
+  const { success: successUpdate, error: errorUpdate } = diaryUpdate
 
   useEffect(() => {
     if (!userGoogle && !userInfo) {
-      history.push("/login");
+      history.push("/login")
     }
     if (successUpdate) {
-      dispatch(listDiary(pageNumber, keyword));
-      dispatch({ type: CREATE_DIARY_RESET });
+      dispatch(listDiary(pageNumber, keyword))
+      dispatch({ type: CREATE_DIARY_RESET })
     }
-    dispatch({ type: DIARY_UPDATE_RESET });
-    dispatch(listDiary(pageNumber, keyword));
+    dispatch({ type: DIARY_UPDATE_RESET })
+    dispatch(listDiary(pageNumber, keyword))
   }, [
     userGoogle,
     history,
@@ -90,16 +90,16 @@ const HomeScreen = ({ match, history }) => {
     dispatch,
     successUpdate,
     pageNumber,
-    keyword,
-  ]);
+    keyword
+  ])
 
   if (message) {
-    $(".notify").toggleClass("active");
-    $("#notifyType").toggleClass("success");
+    $(".notify").toggleClass("active")
+    $("#notifyType").toggleClass("success")
     setTimeout(function () {
-      $(".notify").removeClass("active");
-      $("#notifyType").removeClass("success");
-    }, 3000);
+      $(".notify").removeClass("active")
+      $("#notifyType").removeClass("success")
+    }, 3000)
   }
 
   return (
@@ -130,7 +130,7 @@ const HomeScreen = ({ match, history }) => {
                   letterSpacing: "1.2px",
                   textAlign: "end",
                   paddingRight: "5px",
-                  cursor: "pointer",
+                  cursor: "pointer"
                 }}
               >
                 Welcome{" "}
@@ -159,7 +159,7 @@ const HomeScreen = ({ match, history }) => {
               fontSize: "1.3em",
               display: "block",
               margin: "0 auto",
-              paddingTop: "10px",
+              paddingTop: "10px"
             }}
           >
             {message && message.message}
@@ -179,20 +179,23 @@ const HomeScreen = ({ match, history }) => {
             </h1>
           </div>
         )}
-        <div>
+        <div className="grid-diary">
           {diaries
             ? diaries.map((diary) => (
-                <DiaryFlex
-                  key={diary._id}
-                  user={diary.user && diary.user.name}
-                  userImage={diary.user && diary.user.image}
-                  title={diary.title}
-                  body={diary.body}
-                  image={diary.image}
-                  readTime={diary.readTime}
-                  id={diary._id}
-                  userId={diary.user?._id}
-                />
+                <div>
+                  <DiaryFlex
+                    key={diary._id}
+                    user={diary.user && diary.user.name}
+                    userImage={diary.user && diary.user.image}
+                    title={diary.title}
+                    body={diary.body}
+                    image={diary.image}
+                    readTime={diary.readTime}
+                    id={diary._id}
+                    userId={diary.user?._id}
+                    created={diary.createdAt}
+                  />
+                </div>
               ))
             : error && (
                 <div className="welcome-text">
@@ -214,7 +217,7 @@ const HomeScreen = ({ match, history }) => {
       <hr style={{ margin: "0" }} />
       <Footer />
     </>
-  );
-};
+  )
+}
 
-export default HomeScreen;
+export default HomeScreen

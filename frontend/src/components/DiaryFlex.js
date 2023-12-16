@@ -1,9 +1,9 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { createBookmark } from "../actions/userActions";
-import "./DiaryFlex.css";
+import React from "react"
+import { useDispatch } from "react-redux"
+import { createBookmark } from "../actions/userActions"
+import "./DiaryFlex.css"
 
-import parse from "html-react-parser";
+import parse from "html-react-parser"
 
 const DiaryFlex = ({
   id,
@@ -14,13 +14,28 @@ const DiaryFlex = ({
   readTime,
   userId,
   userImage,
+  created
 }) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   const bookmarkPost = (e) => {
-    e.preventDefault();
-    dispatch(createBookmark(id));
-  };
+    e.preventDefault()
+    dispatch(createBookmark(id))
+  }
+
+  const formatDate = (inputDate) => {
+    const date = new Date(inputDate)
+    const month = date.toLocaleString("default", { month: "short" })
+    const day = date.getDate()
+    let hours = date.getHours()
+    const ampm = hours >= 12 ? "pm" : "am"
+    hours %= 12
+    hours = hours || 12 // Adjusting 0 to 12 for noon and midnight
+    const minutes = date.getMinutes()
+    return `${month} ${day} ${hours}:${
+      minutes < 10 ? "0" : ""
+    }${minutes}${ampm}`
+  }
 
   return (
     <>
@@ -81,7 +96,9 @@ const DiaryFlex = ({
                         <div className="qu qv qw qx qy ar qz il">
                           <div className="az ar bv">
                             <span className="nn">
-                              <span className="ca b id cc ie">May 29</span>
+                              <span className="ca b id cc ie">
+                                {formatDate(created)}
+                              </span>
                             </span>
                             .&nbsp;
                             <span className="nn reading-time">
@@ -101,7 +118,7 @@ const DiaryFlex = ({
                                         style={{
                                           cursor: "pointer",
                                           padding: "4px",
-                                          background: "none",
+                                          background: "none"
                                         }}
                                       >
                                         <div className="bookmark">
@@ -156,7 +173,7 @@ const DiaryFlex = ({
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default DiaryFlex;
+export default DiaryFlex
