@@ -1,68 +1,71 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import Message from "../components/Message";
-import Loader from "../components/Loader";
-import { registerUser } from "../actions/userActions";
-import Meta from "../components/Meta";
+import axios from "axios"
+import React, { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import Message from "../components/Message"
+import Loader from "../components/Loader"
+import { registerUser } from "../actions/userActions"
+import Meta from "../components/Meta"
 
 const SignupScreen = ({ history }) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
-  const [image, setImage] = useState("");
-  const [uploading, setUploading] = useState(false);
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [message, setMessage] = useState("");
+  const [email, setEmail] = useState("")
+  const [name, setName] = useState("")
+  const [password, setPassword] = useState("")
+  const [image, setImage] = useState("")
+  const [uploading, setUploading] = useState(false)
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [message, setMessage] = useState("")
 
-  const userLoginGoogle = useSelector((state) => state.userLoginGoogle);
-  const { userGoogle } = userLoginGoogle;
-  const userRegister = useSelector((state) => state.userRegister);
-  const { loading, success } = userRegister;
+  const userLoginGoogle = useSelector((state) => state.userLoginGoogle)
+  const { userGoogle } = userLoginGoogle
+  const userRegister = useSelector((state) => state.userRegister)
+  const { loading, success, error } = userRegister
 
   useEffect(() => {
     if (userGoogle) {
-      history.push("/");
+      history.push("/")
     }
     if (success) {
-      history.push("/login");
+      history.push("/login")
     }
-  }, [userGoogle, history, success]);
+    if (error) {
+      console.log(error)
+    }
+  }, [userGoogle, history, success, error])
 
   //image uploading
   const uploadFileHandler = async (e) => {
-    const file = e.target.files[0];
-    const formData = new FormData();
-    formData.append("image", file);
-    setUploading(true);
+    const file = e.target.files[0]
+    const formData = new FormData()
+    formData.append("image", file)
+    setUploading(true)
 
     try {
       const config = {
         headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
+          "Content-Type": "multipart/form-data"
+        }
+      }
 
-      const { data } = await axios.post("/api/uploads", formData, config);
-      setImage(data);
-      setUploading(false);
+      const { data } = await axios.post("/api/uploads", formData, config)
+      setImage(data)
+      setUploading(false)
     } catch (error) {
-      console.error(error);
-      setUploading(false);
+      console.error(error)
+      setUploading(false)
     }
-  };
+  }
 
   const signUpHandler = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     if (password !== confirmPassword) {
-      setMessage("Passwords do not match, Please confirm and ReType");
+      setMessage("Passwords do not match, Please confirm and ReType")
     } else {
-      dispatch(registerUser({ name, email, password, image }));
+      dispatch(registerUser({ name, email, password, image }))
     }
-  };
+  }
 
   return (
     <>
@@ -83,6 +86,16 @@ const SignupScreen = ({ history }) => {
 
         <div className="account-right">
           <div className="form-area">
+            {error && (
+              <Message
+                textcolor="red"
+                iconClass="fas fa-times"
+                background="green"
+                width={"300px"}
+              >
+                {error}
+              </Message>
+            )}
             <Link
               to="/login"
               className="btn account-btn"
@@ -118,6 +131,7 @@ const SignupScreen = ({ history }) => {
                   className="control"
                   placeholder="Enter email address....."
                   onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
               </div>
               <div className="group-margin">
@@ -127,6 +141,7 @@ const SignupScreen = ({ history }) => {
                   className="control"
                   placeholder="Enter password....."
                   onChange={(e) => setPassword(e.target.value)}
+                  required={true}
                 />
               </div>
               <div className="group-margin">
@@ -149,7 +164,7 @@ const SignupScreen = ({ history }) => {
                   style={{
                     display: "flex",
                     justifyContent: "center",
-                    alignItems: "center",
+                    alignItems: "center"
                   }}
                   placeholder="Enter Image Url"
                   value={image}
@@ -174,21 +189,24 @@ const SignupScreen = ({ history }) => {
               </div>
 
               <div className="group-margin">
-                <div
-                  className="btn account-btn"
-                  style={{ width: "85%" }}
-                  onClick={signUpHandler}
-                >
-                  Sign Up <i className="fas fa-arrow-circle-right"></i>
-                </div>
-                {uploading && <Loader />}
+                {loading ? (
+                  <Loader />
+                ) : (
+                  <div
+                    className="btn account-btn"
+                    style={{ width: "85%" }}
+                    onClick={signUpHandler}
+                  >
+                    Sign Up <i className="fas fa-arrow-circle-right"></i>
+                  </div>
+                )}
               </div>
             </form>
           </div>
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default SignupScreen;
+export default SignupScreen

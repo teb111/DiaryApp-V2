@@ -1,47 +1,47 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import GoogleLogin from "react-google-login";
-import { useDispatch, useSelector } from "react-redux";
-import { loginWithGoogle } from "../actions/userActions";
-import Loader from "../components/Loader";
-import Message from "../components/Message";
-import { loginUser } from "../actions/userActions";
-import Meta from "../components/Meta";
+import React, { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
+import GoogleLogin from "react-google-login"
+import { useDispatch, useSelector } from "react-redux"
+import { loginWithGoogle } from "../actions/userActions"
+import Loader from "../components/Loader"
+import Message from "../components/Message"
+import { loginUser } from "../actions/userActions"
+import Meta from "../components/Meta"
 
 const LoginScreen = ({ history }) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
 
   const responseSuccessGoogle = (response) => {
-    const tokenId = response.tokenId;
-    dispatch(loginWithGoogle(tokenId));
-  };
+    const tokenId = response.tokenId
+    dispatch(loginWithGoogle(tokenId))
+  }
 
-  const userRegister = useSelector((state) => state.userRegister);
-  const { success } = userRegister;
+  const userRegister = useSelector((state) => state.userRegister)
+  const { success } = userRegister
 
   const responseErrorGoogle = (response) => {
-    console.log(response);
-  };
+    console.log(response)
+  }
 
-  const userLoginGoogle = useSelector((state) => state.userLoginGoogle);
-  const { loading, userGoogle } = userLoginGoogle;
+  const userLoginGoogle = useSelector((state) => state.userLoginGoogle)
+  const { loading, userGoogle } = userLoginGoogle
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo, error } = userLogin;
+  const userLogin = useSelector((state) => state.userLogin)
+  const { loading: loginLoading, userInfo, error } = userLogin
 
   useEffect(() => {
     if (userGoogle || userInfo) {
-      history.push("/");
+      history.push("/")
     }
-  }, [userGoogle, history, userInfo]);
+  }, [userGoogle, history, userInfo])
 
   const submitHandler = (e) => {
-    e.preventDefault();
-    dispatch(loginUser(email, password));
-  };
+    e.preventDefault()
+    dispatch(loginUser(email, password))
+  }
 
   return (
     <>
@@ -86,9 +86,13 @@ const LoginScreen = ({ history }) => {
               </div>
 
               <div className="group">
-                <div onClick={submitHandler} className="btn account-btn">
-                  Log In <i className="fas fa-sign-in-alt"></i>
-                </div>
+                {loginLoading ? (
+                  <Loader />
+                ) : (
+                  <div onClick={submitHandler} className="btn account-btn">
+                    Log In <i className="fas fa-sign-in-alt"></i>
+                  </div>
+                )}
               </div>
 
               {/* <div
@@ -136,7 +140,7 @@ const LoginScreen = ({ history }) => {
                 )}
               </div>
 
-              <div
+              {/* <div
                 className="group"
                 style={{
                   display: "flex",
@@ -157,7 +161,7 @@ const LoginScreen = ({ history }) => {
                     cookiePolicy={"single_host_origin"}
                   />
                 )}
-              </div>
+              </div> */}
 
               <div className="group">
                 {success && (
@@ -181,7 +185,7 @@ const LoginScreen = ({ history }) => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default LoginScreen;
+export default LoginScreen
