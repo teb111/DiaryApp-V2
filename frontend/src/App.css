@@ -2020,3 +2020,11 @@ h4,
   grid-template-columns: 1fr 1fr ;
   gap: 35px;
 }
+
+@media only screen and (max-width: 780px) {
+  .grid-diary {
+
+    grid-template-columns: 1fr ;
+
+  }
+}
